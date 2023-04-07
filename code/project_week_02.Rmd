@@ -1,0 +1,14 @@
+---
+title: "week-02"
+output: html_document
+date: "2023-04-07"
+---
+
+```{bash}
+cd ../data 
+wget --recursive --no-parent --no-directories \
+--no-check-certificate \
+--accept '*.fastq.gz' \
+https://drive.google.com/file/d/1t4epn5jk0o5sLru7ji-HpzY7C5L2O4zh/view?usp=share_link
+```
+
