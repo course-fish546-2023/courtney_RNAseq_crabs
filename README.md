@@ -27,7 +27,7 @@ Control: samples #1-4
 + 5010_3_S3_L003_R1_001.fastq.gz
 + 5010_4_S4_L003_R1_001.fastq.gz
 
-pH 7.8: samples #39-42
+pH 7.8 (long exposure): samples #39-42
 + 5010_39_S39_L003_R1_001.fastq.gz
 + 5010_40_S40_L003_R1_001.fastq.gz
 + 5010_41_S41_L003_R1_001.fastq.gz
