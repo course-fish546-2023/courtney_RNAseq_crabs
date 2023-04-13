@@ -1,14 +1,32 @@
 ---
 title: "week-02"
 output: html_document
-date: "2023-04-07"
+created: "2023-04-07"
+last edited: "2023-04-11"
 ---
 
 ```{bash}
-cd ../data 
-wget --recursive --no-parent --no-directories \
---no-check-certificate \
---accept '*.fastq.gz' \
-https://drive.google.com/file/d/1t4epn5jk0o5sLru7ji-HpzY7C5L2O4zh/view?usp=share_link
+ls /home/shared/8TB_HDD_01/snow_crab/5010
+```
+```{bash}
+cd ../data
+curl -O https://owl.fish.washington.edu/halfshell/genomic-databank/cbai_genome_v1.0.fasta
+```
+```{bash}
+/home/shared/kallisto/kallisto \
+index -i \
+../data/cbai_genome_v1.0.index \
+../data/cbai_genome_v1.0.fasta
 ```
 
+```{bash}
+mkdir ../output/kallisto_01
+
+find ../home/shared/8TB_HDD_01/snow_crab/5010/exp01/*fastq.gz \
+| xargs basename -s _001.fastq.gz | xargs -I{} 
+/home/shared/kallisto/kallisto \
+quant -i ../data/cbai_genome_v1.0.index \
+-o ../output/kallisto_01/{} \
+-t 40 \
+--single -l 100 -s 10 ../home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_001.fastq.gz
+```
