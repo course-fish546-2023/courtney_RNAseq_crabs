@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+output/kallisto_01
+data/cbai*

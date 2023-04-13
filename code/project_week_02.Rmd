@@ -2,31 +2,44 @@
 title: "week-02"
 output: html_document
 created: "2023-04-07"
-last edited: "2023-04-11"
+last edited: "2023-04-13"
 ---
+
+### Look at all RNASeq files
 
 ```{bash}
 ls /home/shared/8TB_HDD_01/snow_crab/5010
 ```
+
+### Download C. bairdi reference, save it to "data" directory
+
 ```{bash}
 cd ../data
 curl -O https://owl.fish.washington.edu/halfshell/genomic-databank/cbai_genome_v1.0.fasta
 ```
+
+### Set index
+
 ```{bash}
+#index "cbai_genome_v1.0.fasta" and rename it as "cbai_genome_v1.0.index"
 /home/shared/kallisto/kallisto \
 index -i \
-../data/cbai_genome_v1.0.index \
+../data/cbai_genome_v1.0.index \  
 ../data/cbai_genome_v1.0.fasta
 ```
 
+### Create abundance estimate files for desired sequences
+
 ```{bash}
+#make a new directory in output
 mkdir ../output/kallisto_01
 
-find ../home/shared/8TB_HDD_01/snow_crab/5010/exp01/*fastq.gz \
-| xargs basename -s _001.fastq.gz | xargs -I{} 
+#find specific files and create abundance estimates
+find /home/shared/8TB_HDD_01/snow_crab/5010/exp01/*fastq.gz \
+| xargs basename -s _001.fastq.gz | xargs -I{} \
 /home/shared/kallisto/kallisto \
 quant -i ../data/cbai_genome_v1.0.index \
 -o ../output/kallisto_01/{} \
 -t 40 \
---single -l 100 -s 10 ../home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_001.fastq.gz
+--single -l 100 -s 10 /home/shared/8TB_HDD_01/snow_crab/5010/exp01/5010_2_S2_L003_R2_001.fastq.gz
 ```
