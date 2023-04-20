@@ -6,8 +6,8 @@ last edited: "2023-04-20"
 ---
 
 # Introduction
-This is code for examining the effect of ocean acidification on gene expression of snow crabs.
 
+This is code for examining the effect of ocean acidification on gene expression of snow crabs.
 
 ### Look at all RNASeq files
 
@@ -32,10 +32,13 @@ index -i \
 ../data/cbai_genome_v1.0.fasta
 ```
 
+### Look at files within exp01
+
 ```{bash}
 #list file names
 ls /home/shared/8TB_HDD_01/snow_crab/5010/exp01
 ```
+
 ### Create abundance estimate files for desired sequences
 
 ```{bash}
@@ -52,7 +55,9 @@ quant -i ../data/cbai_genome_v1.0.index \
 --single -l 100 -s 10 /home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_001.fastq.gz
 ```
 
-### next, will run abundance_estimates_to_matrix.pl script from the Trinity RNA-seq assembly software package to create a gene expression matrix from kallisto output files
+### Create a gene expression matrix from kallisto output files
+
+#### Run abundance_estimates_to_matrix.pl script from the Trinity RNA-seq assembly software package to
 
 ```{bash}
 perl /home/shared/trinityrnaseq-v2.12.0/util/abundance_estimates_to_matrix.pl \
@@ -75,6 +80,9 @@ perl /home/shared/trinityrnaseq-v2.12.0/util/abundance_estimates_to_matrix.pl \
     ../output/kallisto_01/5010_41_S41_L003_R1/abundance.tsv \
     ../output/kallisto_01/5010_41_S41_L003_R2/abundance.tsv
 ```
+
+### Get packages
+
 ```{r}
 library(DESeq2)
 library(tidyverse)
@@ -83,6 +91,8 @@ library(RColorBrewer)
 library(data.table)
 ```
 
+### Read in count matrix
+
 ```{r}
 countmatrix <- read.delim("../output/kallisto_01.isoform.counts.matrix", header = TRUE, sep = '\t')
 rownames(countmatrix) <- countmatrix$X
@@ -90,10 +100,14 @@ countmatrix <- countmatrix[,-1]
 head(countmatrix)
 ```
 
+#### Round up to whole numbers
+
 ```{r}
 countmatrix <- round(countmatrix, 0)
 str(countmatrix)
 ```
+
+### Get differential gene expression based on pH exposure
 
 ```{r}
 deseq2.colData <- data.frame(condition=factor(c(rep("control", 8), rep("high pH", 6))), 
