@@ -1,8 +1,8 @@
 ---
-title: "week-02"
+title: "differential gene expression"
 output: html_document
 created: "2023-04-07"
-last edited: "2023-04-13"
+last edited: "2023-04-20"
 ---
 
 # Introduction
@@ -49,7 +49,7 @@ find /home/shared/8TB_HDD_01/snow_crab/5010/exp01/*fastq.gz \
 quant -i ../data/cbai_genome_v1.0.index \
 -o ../output/kallisto_01/{} \
 -t 40 \
---single -l 100 -s 10 /home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}.fastq.gz
+--single -l 100 -s 10 /home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_001.fastq.gz
 ```
 
 ### next, will run abundance_estimates_to_matrix.pl script from the Trinity RNA-seq assembly software package to create a gene expression matrix from kallisto output files
