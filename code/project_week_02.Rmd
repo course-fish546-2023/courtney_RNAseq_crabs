@@ -92,12 +92,22 @@ str(countmatrix)
 ```
 
 ```{r}
-deseq2.colData <- data.frame(condition=factor(c(rep("control", 12), rep("desicated", 12))), 
-                             type=factor(rep("single-read", 24)))
+deseq2.colData <- data.frame(condition=factor(c(rep("control", 8), rep("high pH", 6))), 
+                             type=factor(rep("single-read", 14)))
 rownames(deseq2.colData) <- colnames(data)
 deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix,
                                      colData = deseq2.colData, 
                                      design = ~ condition)
+dim(countmatrix)
+dim(deseq2.colData)
+deseq2.colData
+deseq2.dds
+```
+
+```{r}
+deseq2.dds <- DESeq(deseq2.dds)
+deseq2.res <- results(deseq2.dds)
+deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
 ```
 
 ## still missing sample 42 (5010_42_S42_L003_R2_001.fastq.gz)
