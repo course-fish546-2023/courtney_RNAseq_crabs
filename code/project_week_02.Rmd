@@ -32,6 +32,10 @@ index -i \
 ../data/cbai_genome_v1.0.fasta
 ```
 
+```{bash}
+#list file names
+ls /home/shared/8TB_HDD_01/snow_crab/5010/exp01
+```
 ### Create abundance estimate files for desired sequences
 
 ```{bash}
@@ -45,7 +49,7 @@ find /home/shared/8TB_HDD_01/snow_crab/5010/exp01/*fastq.gz \
 quant -i ../data/cbai_genome_v1.0.index \
 -o ../output/kallisto_01/{} \
 -t 40 \
---single -l 100 -s 10 /home/shared/8TB_HDD_01/snow_crab/5010/exp01/5010_2_S2_L003_R2_001.fastq.gz
+--single -l 100 -s 10 /home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}.fastq.gz
 ```
 
 ### next, will run abundance_estimates_to_matrix.pl script from the Trinity RNA-seq assembly software package to create a gene expression matrix from kallisto output files
