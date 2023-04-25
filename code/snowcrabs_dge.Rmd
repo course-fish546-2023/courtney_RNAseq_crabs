@@ -110,7 +110,7 @@ str(countmatrix)
 ### Get differential gene expression based on pH exposure
 
 ```{r}
-deseq2.colData <- data.frame(condition=factor(c(rep("control", 8), rep("high pH", 6))), 
+deseq2.colData <- data.frame(condition=factor(c(rep("control", 8), rep("low pH", 6))), 
                              type=factor(rep("single-read", 14)))
 rownames(deseq2.colData) <- colnames(data)
 deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix,
@@ -126,6 +126,37 @@ deseq2.dds
 deseq2.dds <- DESeq(deseq2.dds)
 deseq2.res <- results(deseq2.dds)
 deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
+```
+
+### Look at DESeq matrix
+
+```{r}
+head(deseq2.res)
+```
+
+### Look for signficant values
+
+```{r}
+# Count number of hits with adjusted p-value less then 0.05
+dim(deseq2.res[!is.na(deseq2.res$padj) & deseq2.res$padj <= 0.05, ])
+```
+
+```{r}
+tmp <- deseq2.res
+# The main plot
+plot(tmp$baseMean, tmp$log2FoldChange, pch=20, cex=0.45, ylim=c(-3, 3), log="x", col="darkgray",
+     main="DEG pH 7.8  (pval <= 0.05)",
+     xlab="mean of normalized counts",
+     ylab="Log2 Fold Change")
+# Getting the significant points and plotting them again so they're a different color
+tmp.sig <- deseq2.res[!is.na(deseq2.res$padj) & deseq2.res$padj <= 0.05, ]
+points(tmp.sig$baseMean, tmp.sig$log2FoldChange, pch=20, cex=0.45, col="red")
+# 2 FC lines
+abline(h=c(-1,1), col="blue")
+```
+
+```{r}
+write.table(tmp.sig, "../output/DEGlist.tab", row.names = T)
 ```
 
 ## still missing sample 42 (5010_42_S42_L003_R2_001.fastq.gz)
