@@ -6,7 +6,7 @@ editor: visual
 incremental: true
 ---
 
-```{r}
+```{r, echo=FALSE}
 library(DESeq2)
 library(tidyverse)
 library(pheatmap)
@@ -14,17 +14,17 @@ library(RColorBrewer)
 library(data.table)
 ```
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, echo=FALSE}
 countmatrix <- read.delim("../output/kallisto_01.isoform.counts.matrix", header = TRUE, sep = '\t')
 rownames(countmatrix) <- countmatrix$X
 countmatrix <- countmatrix[,-1]
 ```
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, echo=FALSE}
 countmatrix <- round(countmatrix, 0)
 ```
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, echo=FALSE}
 deseq2.colData <- data.frame(condition=factor(c(rep("control", 8), rep("low pH", 6))), 
                              type=factor(rep("single-read", 14)))
 rownames(deseq2.colData) <- colnames(data)
@@ -37,7 +37,7 @@ deseq2.colData
 deseq2.dds
 ```
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, echo=FALSE}
 deseq2.dds <- DESeq(deseq2.dds)
 deseq2.res <- results(deseq2.dds)
 deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
@@ -51,7 +51,7 @@ deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
 
 -   Compare snow crab response to ocean acidification
 -   Conduct a differential gene expression analysis
--   Using data from Dr. Laura Spencer
+-   Using data from Laura Spencer
 
 ## Experiment {.smaller}
 
@@ -61,7 +61,6 @@ deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
 -   pH 7.8
     -   short: 8 hours
     -   long: 12 weeks
-    
 -   pH 7.5
     -   short: 8 hours
     -   long: 12 weeks
@@ -72,6 +71,20 @@ deseq2.res <- deseq2.res[order(rownames(deseq2.res)), ]
 -   Each of the 63 samples were run in both lanes
 -   126 paired-end RNA-Seq data sets
 
+## Available data
+
+```{bash}
+#list file names
+ls /home/shared/8TB_HDD_01/snow_crab/5010/exp01
+```
+
+## Available data
+
+```{bash}
+#look at file
+head /home/shared/8TB_HDD_01/snow_crab/5010/exp01/5010_1_S1_L003_R1_001.fastq.gz
+```
+
 ## Creating a count matrix of sequences
 
 ```{r, creating a count matrix of sequences}
@@ -81,27 +94,40 @@ countmatrix <- countmatrix[,-1]
 head(countmatrix)
 ```
 
-## Code for Differential Gene Expression Plot
+## Code for Differential Gene Expression
+
+``` {.r code-line-numbers="1-2"}
+deseq2.colData <- data.frame(condition=factor(c(rep("control", 8), rep("low pH", 6))), 
+                             type=factor(rep("single-read", 14)))
+rownames(deseq2.colData) <- colnames(data)
+deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix,
+                                     colData = deseq2.colData, 
+                                     design = ~ condition)
+dim(countmatrix)
+dim(deseq2.colData)
+deseq2.colData
+deseq2.dds
+```
+
+## Code for Differential Gene Expression
 
 ``` {.r code-line-numbers="4-6"}
-
-tmp <- deseq2.res
-# The main plot
-plot(tmp$baseMean, tmp$log2FoldChange, pch=20, cex=0.45, ylim=c(-3, 3), log="x", col="darkgray",
-     main="DEG pH 7.8  (pval <= 0.05)",
-     xlab="mean of normalized counts",
-     ylab="Log2 Fold Change")
-# Getting the significant points and plotting them again so they're a different color
-tmp.sig <- deseq2.res[!is.na(deseq2.res$padj) & deseq2.res$padj <= 0.05, ]
-points(tmp.sig$baseMean, tmp.sig$log2FoldChange, pch=20, cex=0.45, col="red")
-# 2 FC lines
-abline(h=c(-1,1), col="blue")
+deseq2.colData <- data.frame(condition=factor(c(rep("control", 8), rep("low pH", 6))), 
+                             type=factor(rep("single-read", 14)))
+rownames(deseq2.colData) <- colnames(data)
+deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix,
+                                     colData = deseq2.colData, 
+                                     design = ~ condition)
+dim(countmatrix)
+dim(deseq2.colData)
+deseq2.colData
+deseq2.dds
 ```
 
 ## The Result: DGE for Snow Crabs
 
 ```{r}
-#| echo: true
+#| echo: false
 #| output-location: slide
 tmp <- deseq2.res
 # The main plot
@@ -116,8 +142,11 @@ points(tmp.sig$baseMean, tmp.sig$log2FoldChange, pch=20, cex=0.45, col="red")
 abline(h=c(-1,1), col="blue")
 ```
 
-## Next steps
+## Next Steps
 
 -   Conduct DGE using all 63 samples
 -   Update code to combine forward and reverse sequences in DESeq
--   Create and annotate a de novo snow crab transcriptome 
+-   Visualize data in other ways
+    -   Hierarchical Clustering Heatmap
+    -   PCA
+-   Create and annotate a de novo snow crab transcriptome

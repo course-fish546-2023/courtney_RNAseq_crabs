@@ -160,3 +160,13 @@ write.table(tmp.sig, "../output/DEGlist.tab", row.names = T)
 ```
 
 ## still missing sample 42 (5010_42_S42_L003_R2_001.fastq.gz)
+
+
+```{bash}
+head -10 /home/shared/8TB_HDD_01/snow_crab/5010/exp01/5010_1_S1_L003_R1_001.fastq.gz
+```
+
+```{bash}
+#list file names
+ls /home/shared/8TB_HDD_01/snow_crab/5010/exp01
+```
