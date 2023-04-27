@@ -8,6 +8,18 @@ editor_options:
 
 ## **Differential gene expression in snow crabs (*Chionoecetes opilio*) in response to different pH treatments**
 
+### Plan for next 4 weeks:
+-   Conduct DGE using all 63 samples
+-   Update code to combine forward and reverse sequences in DESeq
+-   Visualize data in other ways
+    -   Hierarchical Clustering Heatmap
+    -   PCA
+-   Create and annotate a de novo snow crab transcriptome (if there is time)
+
+### Link to results:
+-   [Code] <https://github.com/course-fish546-2023/courtney_RNAseq_crabs/blob/970eec8fea6298725a453ccc06ac890338e26598/code/snowcrabs_dge.Rmd>
+
+
 I will be working with paired end RNA-Seq data prepared and provided by
 Laura Spencer.
 
