@@ -43,16 +43,18 @@ ls /home/shared/8TB_HDD_01/snow_crab/5010/exp01
 
 ```{bash}
 #make a new directory in output
-mkdir ../output/kallisto_01
+mkdir ../output/kallisto_01_paired
 
 #find specific files and create abundance estimates
 find /home/shared/8TB_HDD_01/snow_crab/5010/exp01/*fastq.gz \
-| xargs basename -s _001.fastq.gz | xargs -I{} \
+| xargs basename -s _R?_001.fastq.gz | xargs -I{} \
 /home/shared/kallisto/kallisto \
 quant -i ../data/cbai_genome_v1.0.index \
--o ../output/kallisto_01/{} \
+-o ../output/kallisto_01_paired/{} \
 -t 40 \
---single -l 100 -s 10 /home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_001.fastq.gz
+#run next two lines to use forward and reverse in abundance index
+/home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_R1_001.fastq.gz #forward
+/home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_R2_001.fastq.gz #reverse
 ```
 
 ### Create a gene expression matrix from kallisto output files
