@@ -1,12 +1,9 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # courtney_RNAseq_crabs
 
 ## **Differential gene expression in snow crabs (*Chionoecetes opilio*) in response to different pH treatments**
+
+### Update on May 5, 2023: 
+I'm planning on working on the annotated transcriptome this weekend and trying to use all 63 samples in DESeq. 
 
 ### Plan for next 4 weeks:
 -   Conduct DGE using all 63 samples
