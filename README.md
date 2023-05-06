@@ -2,8 +2,8 @@
 
 ## **Differential gene expression in snow crabs (*Chionoecetes opilio*) in response to different pH treatments**
 
-### Update on May 5, 2023: 
-I'm planning on working on the annotated transcriptome this weekend and trying to use all 63 samples in DESeq. 
+### Update on May 6, 2023: 
+Completed DGE using all 63 samples, updated code to combine forward and reverese sequences in DESeq.
 
 ### Plan for next 4 weeks:
 -   Conduct DGE using all 63 samples
