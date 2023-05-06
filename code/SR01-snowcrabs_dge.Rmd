@@ -42,31 +42,112 @@ ls /home/shared/8TB_HDD_01/snow_crab/5010/exp01
 
 
 ```{bash}
-find /home/shared/8TB_HDD_01/snow_crab/5010/exp01/*fastq.gz
+find /home/shared/8TB_HDD_01/snow_crab/5010/*fastq.gz
 ```
-
-
 
 ```{bash}
 #make a new directory in output
-mkdir ../output/kallisto_04_paired
+mkdir ../output/kallisto_paired
 
 #find specific files and create abundance estimates
-find /home/shared/8TB_HDD_01/snow_crab/5010/exp01/*fastq.gz \
+find /home/shared/8TB_HDD_01/snow_crab/5010/*fastq.gz \
 | xargs basename -s _L003_R1_001.fastq.gz | xargs -I{} \
 /home/shared/kallisto/kallisto \
 quant -i ../data/cbai_genome_v1.0.index \
--o ../output/kallisto_04_paired/{} \
+-o ../output/kallisto_paired/{} \
 -t 40 \
-/home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_L003_R1_001.fastq.gz \
-/home/shared/8TB_HDD_01/snow_crab/5010/exp01/{}_L003_R2_001.fastq.gz
+/home/shared/8TB_HDD_01/snow_crab/5010/{}_L003_R1_001.fastq.gz \
+/home/shared/8TB_HDD_01/snow_crab/5010/{}_L003_R2_001.fastq.gz
 ```
 
 ### Create a gene expression matrix from kallisto output files
 
-#### Run abundance_estimates_to_matrix.pl script from the Trinity RNA-seq assembly software package to
+#### Run abundance_estimates_to_matrix.pl script from the Trinity RNA-seq assembly software package 
 
 ```{bash}
+ls ~/courtney_RNAseq_crabs/output/kallisto_paired
+#use these folder names for perl input
+```
+
+
+
+```{bash} 
+#Sample name input for perl
+
+    ../output/kallisto_paired/5010_1_S1/abundance.tsv \
+    ../output/kallisto_paired/5010_2_S2/abundance.tsv \
+    ../output/kallisto_paired/5010_3_S3/abundance.tsv \
+    ../output/kallisto_paired/5010_4_S4/abundance.tsv \
+    ../output/kallisto_paired/5010_5_S5/abundance.tsv \
+    ../output/kallisto_paired/5010_6_S6/abundance.tsv \
+    ../output/kallisto_paired/5010_7_S7/abundance.tsv \
+    ../output/kallisto_paired/5010_8_S8/abundance.tsv \
+    ../output/kallisto_paired/5010_9_S9/abundance.tsv \
+    ../output/kallisto_paired/5010_10_S10/abundance.tsv \
+    
+    ../output/kallisto_paired/5010_11_S11/abundance.tsv \
+    ../output/kallisto_paired/5010_12_S12/abundance.tsv \
+    ../output/kallisto_paired/5010_13_S13/abundance.tsv \
+    ../output/kallisto_paired/5010_14_S14/abundance.tsv \
+    ../output/kallisto_paired/5010_15_S15/abundance.tsv \
+    ../output/kallisto_paired/5010_16_S16/abundance.tsv \
+    ../output/kallisto_paired/5010_17_S17/abundance.tsv \
+    ../output/kallisto_paired/5010_18_S18/abundance.tsv \
+    ../output/kallisto_paired/5010_19_S19/abundance.tsv \
+    ../output/kallisto_paired/5010_20_S20/abundance.tsv \
+    
+    ../output/kallisto_paired/5010_21_S21/abundance.tsv \
+    ../output/kallisto_paired/5010_22_S22/abundance.tsv \
+    ../output/kallisto_paired/5010_23_S23/abundance.tsv \
+    ../output/kallisto_paired/5010_24_S24/abundance.tsv \
+    ../output/kallisto_paired/5010_25_S25/abundance.tsv \
+    ../output/kallisto_paired/5010_26_S26/abundance.tsv \
+    ../output/kallisto_paired/5010_27_S27/abundance.tsv \
+    ../output/kallisto_paired/5010_28_S28/abundance.tsv \
+    ../output/kallisto_paired/5010_29_S29/abundance.tsv \
+    ../output/kallisto_paired/5010_30_S30/abundance.tsv \
+    
+    ../output/kallisto_paired/5010_31_S31/abundance.tsv \
+    ../output/kallisto_paired/5010_32_S32/abundance.tsv \
+    ../output/kallisto_paired/5010_33_S33/abundance.tsv \
+    ../output/kallisto_paired/5010_34_S34/abundance.tsv \
+    ../output/kallisto_paired/5010_35_S35/abundance.tsv \
+    ../output/kallisto_paired/5010_36_S36/abundance.tsv \
+    ../output/kallisto_paired/5010_37_S37/abundance.tsv \
+    ../output/kallisto_paired/5010_38_S38/abundance.tsv \
+    ../output/kallisto_paired/5010_39_S39/abundance.tsv \
+    ../output/kallisto_paired/5010_40_S40/abundance.tsv \
+    
+    ../output/kallisto_paired/5010_41_S41/abundance.tsv \
+    ../output/kallisto_paired/5010_42_S42/abundance.tsv \
+    ../output/kallisto_paired/5010_43_S43/abundance.tsv \
+    ../output/kallisto_paired/5010_44_S44/abundance.tsv \
+    ../output/kallisto_paired/5010_45_S45/abundance.tsv \
+    ../output/kallisto_paired/5010_46_S46/abundance.tsv \
+    ../output/kallisto_paired/5010_47_S47/abundance.tsv \
+    ../output/kallisto_paired/5010_48_S48/abundance.tsv \
+    ../output/kallisto_paired/5010_49_S49/abundance.tsv \
+    ../output/kallisto_paired/5010_50_S50/abundance.tsv \
+    
+    ../output/kallisto_paired/5010_51_S51/abundance.tsv \
+    ../output/kallisto_paired/5010_52_S52/abundance.tsv \
+    ../output/kallisto_paired/5010_53_S53/abundance.tsv \
+    ../output/kallisto_paired/5010_54_S54/abundance.tsv \
+    ../output/kallisto_paired/5010_55_S55/abundance.tsv \
+    ../output/kallisto_paired/5010_56_S56/abundance.tsv \
+    ../output/kallisto_paired/5010_57_S57/abundance.tsv \
+    ../output/kallisto_paired/5010_58_S58/abundance.tsv \
+    ../output/kallisto_paired/5010_59_S59/abundance.tsv \
+    ../output/kallisto_paired/5010_60_S60/abundance.tsv \
+    
+    ../output/kallisto_paired/5010_61_S61/abundance.tsv \
+    ../output/kallisto_paired/5010_62_S62/abundance.tsv \
+    ../output/kallisto_paired/5010_63_S63/abundance.tsv
+
+```
+
+```{bash}
+#ORIGINAL
 perl /home/shared/trinityrnaseq-v2.12.0/util/abundance_estimates_to_matrix.pl \
 --est_method kallisto \
     --gene_trans_map none \
