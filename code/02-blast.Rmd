@@ -84,25 +84,8 @@ grep -c ">" /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq
 
 
 ```{bash}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 head -2 ../output/c_opilio_uniprot_blastx.tab
 wc -l ../output/c_opilio_uniprot_blastx.tab
-=======
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
 head ../data/Ab_4denovo_CLC6_a.fa
 echo "How many sequences are there?"
 grep -c ">" ../data/Ab_4denovo_CLC6_a.fa
