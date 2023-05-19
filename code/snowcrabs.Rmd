@@ -249,6 +249,10 @@ points(tmp.sig$baseMean, tmp.sig$log2FoldChange, pch=20, cex=0.45, col="red")
 abline(h=c(-1,1), col="blue")
 ```
 
+<<<<<<< HEAD
 ```{r, eval = TRUE, echo = TRUE}
+=======
+```{r, eval = TRUE}
+>>>>>>> b38cb740e30e37228d66733115204758519507b5
 write.table(tmp.sig, "../output/DEGlist.tab", row.names = T)
 ```
