@@ -60,70 +60,19 @@ echo "How many sequences are there?"
 grep -c ">" /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz
 
 # if moved correctly: grep -c ">" ../data/5010_10_S10_L003_R1_001.fastq
-=======
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
 #examine the first fasta file
 
 ```{bash}
 head /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz
 echo "How many sequences are there?"
 grep -c ">" /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
 ```
 
 # run blast
 
 ```{bash}
 /home/shared/ncbi-blast-2.11.0+/bin/blastx \
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
--query ../data/5010_10_S10_L003_R1_001.fastq \
-=======
 -query /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz \
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
--query /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz \
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
--query /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz \
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
--query /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz \
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
--query /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz \
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
--query /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz \
->>>>>>> b38cb740e30e37228d66733115204758519507b5
 -db ../blastdb/uniprot_sprot_r2023_01 \
 -out ../output/c_opilio_uniprot_blastx.tab \
 -evalue 1E-20 \
@@ -177,22 +126,6 @@ grep -c ">" ../data/Ab_4denovo_CLC6_a.fa
 ```{bash}
 head -2 ../output/Ab_4-uniprot_blastx.tab
 wc -l ../output/Ab_4-uniprot_blastx.tab
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
 ```
 
 &&& this puts table in code directory
@@ -203,44 +136,11 @@ curl -o "uniprot_table_r2023_01.tab" -H "Accept: text/plain; format=tsv" "https:
 
 
 ```{bash}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
 head -2 ../output/Ab_4-uniprot_blastx.tab
 wc -l ../output/Ab_4-uniprot_blastx.tab
 ```
 
 ```{bash}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
-=======
->>>>>>> b38cb740e30e37228d66733115204758519507b5
 tr '|' '\t' < ../output/Ab_4-uniprot_blastx.tab | head -2
 ```
 ```{bash}
