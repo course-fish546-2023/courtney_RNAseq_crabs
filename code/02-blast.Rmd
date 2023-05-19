@@ -44,12 +44,6 @@ ls ../data
 ls /home/shared/8TB_HDD_01/snow_crab/5010/
 ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 #PERMISSION DENIED unzip the first fasta file
 ```{bash}
 gunzip /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz
