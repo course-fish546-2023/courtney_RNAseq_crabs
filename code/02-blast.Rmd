@@ -39,7 +39,6 @@ ls ../data
 ```
 
 # see all available query sequences
-
 ```{bash}
 ls /home/shared/8TB_HDD_01/snow_crab/5010/
 ```
@@ -49,8 +48,6 @@ ls /home/shared/8TB_HDD_01/snow_crab/5010/
 gunzip /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz
 mv /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq ../data/5010_10_S10_L003_R1_001.fastq
 ```
-
-
 
 
 
