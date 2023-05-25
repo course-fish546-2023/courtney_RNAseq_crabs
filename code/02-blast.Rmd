@@ -15,13 +15,15 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-# check that blast has been downloaded
+Check that blast software has been downloaded
+
 ```{bash}
 ls /home/shared/
 ```
 
+# Make blast database
 
-# make blast database
+Download uniprot/swissprot fasta, rename with year and version, then unzip the file.
 
 ```{bash, blast database}
 cd ../data
@@ -38,97 +40,195 @@ ls ../data
 -out ../blastdb/uniprot_sprot_r2023_01
 ```
 
-# see all available query sequences
+# Download transcriptomes
+
+There are three available transcriptomes for opilio crabs: molting gland, eyestalk ganglia, and hepatopancreas. Here, we will blast the molting gland and eyestalk ganglia transcriptomes.
+
+C. opilio molting gland (mg) transcriptome:
+
 ```{bash}
-ls /home/shared/8TB_HDD_01/snow_crab/5010/
+cd ../data
+curl -o "c_opilio_mg_transcriptome.fasta" -H "Accept: text/plain; format=tsv" "https://gannet.fish.washington.edu/seashell/snaps/HBXI01.fasta"
 ```
 
-#PERMISSION DENIED unzip the first fasta file
+C. opilio eyestalk ganglia (eg) transcriptome:
+
 ```{bash}
-gunzip /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq.gz
-mv /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fastq ../data/5010_10_S10_L003_R1_001.fastq
+cd ../data
+curl -o "c_opilio_eg_transcriptome.fasta" -H "Accept: text/plain; format=tsv" "https://gannet.fish.washington.edu/seashell/snaps/HBWO01.fasta"
 ```
 
+### Examine fasta files
 
+Eyestalk ganglia (eg) transcriptome:
 
-# examaine 
 ```{bash}
-head /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fasta
-
-# if moved correctly: ../data/5010_10_S10_L003_R1_001.fastq
-
+head ../data/c_opilio_eg_transcriptome.fasta
 echo "How many sequences are there?"
-grep -c ">" /home/shared/8TB_HDD_01/snow_crab/5010/5010_10_S10_L003_R1_001.fasta
-
-# if moved correctly: grep -c ">" ../data/5010_10_S10_L003_R1_001.fastq
-#examine the first fasta file
+grep -c ">" ../data/c_opilio_eg_transcriptome.fasta
 ```
 
+Molting gland (mg) transcriptome:
 
 ```{bash}
-head ../data/c_opilio_transcriptome.fasta
+head ../data/c_opilio_mg_transcriptome.fasta
 echo "How many sequences are there?"
-grep -c ">" ../data/c_opilio_transcriptome.fasta
+grep -c ">" ../data/c_opilio_mg_transcriptome.fasta
 ```
 
-# run blast
+# Run blast
+
+### Blast molting gland (mg) transcriptome:
 
 ```{bash}
 /home/shared/ncbi-blast-2.11.0+/bin/blastx \
--query ../data/c_opilio_transcriptome.fasta\
+-query ../data/c_opilio_mg_transcriptome.fasta \
 -db ../blastdb/uniprot_sprot_r2023_01 \
--out ../output/c_opilio_uniprot_blastx.tab \
+-out ../output/c_opilio_mg_uniprot_blastx.tab \
 -evalue 1E-20 \
 -num_threads 20 \
 -max_target_seqs 1 \
 -outfmt 6
 ```
 
-
+Examine blastx table for molting gland
 
 ```{bash}
-head -2 ../output/c_opilio_uniprot_blastx.tab
-wc -l ../output/c_opilio_uniprot_blastx.tab
+head -2 ../output/c_opilio_mg_uniprot_blastx.tab
+wc -l ../output/c_opilio_mg_uniprot_blastx.tab
 ```
 
+### Blast eyestalk ganglia (eg) transcriptome:
+
 ```{bash}
+/home/shared/ncbi-blast-2.11.0+/bin/blastx \
+-query ../data/c_opilio_eg_transcriptome.fasta \
+-db ../blastdb/uniprot_sprot_r2023_01 \
+-out ../output/c_opilio_eg_uniprot_blastx.tab \
+-evalue 1E-20 \
+-num_threads 20 \
+-max_target_seqs 1 \
+-outfmt 6
+```
+
+Examine blastx table for eyestalk ganglia
+
+```{bash}
+head -2 ../output/c_opilio_eg_uniprot_blastx.tab
+wc -l ../output/c_opilio_eg_uniprot_blastx.tab
+```
+
+# Download uniprot table
+
+```{bash}
+cd ../data
 curl -o "uniprot_table_r2023_01.tab" -H "Accept: text/plain; format=tsv" "https://gannet.fish.washington.edu/seashell/snaps/uniprot_table_r2023_01.tab"
 ```
 
+Examine uniprot table
 
 ```{bash}
-tr '|' '\t' < ../output/Ab_4-uniprot_blastx.tab | head -2
+head -2 ../data/uniprot_table_r2023_01.tab
 ```
+
+# Format tables
+
+## Separate pipes (\|) into tabs for mg
+
 ```{bash}
-tr '|' '\t' < ../output/Ab_4-uniprot_blastx.tab \
-> ../output/Ab_4-uniprot_blastx_sep.tab
+tr '|' '\t' < ../output/c_opilio_mg_uniprot_blastx.tab | head -2
 ```
 
-
-```{r}
-bltabl <- read.csv("../output/c_opilio_uniprot_blastx.tab", sep = '\t', header = FALSE)
+```{bash}
+tr '|' '\t' < ../output/c_opilio_mg_uniprot_blastx.tab \
+> ../output/c_opilio_mg_uniprot_blastx_sep.tab
 ```
 
+## Separate pipes (\|) into tabs for eg
+
+```{bash}
+tr '|' '\t' < ../output/c_opilio_eg_uniprot_blastx.tab | head -2
+```
+
+```{bash}
+tr '|' '\t' < ../output/c_opilio_eg_uniprot_blastx.tab \
+> ../output/c_opilio_eg_uniprot_blastx_sep.tab
+```
+
+Examine molting gland (mg) table
+
+```{bash}
+head -2 ../output/c_opilio_mg_uniprot_blastx_sep.tab 
+```
+
+Examine eyestalk ganglia (eg) table
+
+```{bash}
+head -2 ../output/c_opilio_eg_uniprot_blastx_sep.tab 
+```
+
+# Save blastx table as a local object
+### Molting gland
+
 ```{r}
-spgo <- read.csv("../code/uniprot_table_r2023_01.tab", sep = '\t', header = TRUE)
+bltabl.mg <- read.csv("../output/c_opilio_mg_uniprot_blastx_sep.tab", sep = '\t', header = FALSE)
+```
+
+### Eyestalk ganglia
+
+```{R}
+bltabl.eg <- read.csv("../output/c_opilio_eg_uniprot_blastx_sep.tab", sep = '\t', header = FALSE)
+```
+
+# Save database reference table as a local object
+
+```{r}
+spgo <- read.csv("../data/uniprot_table_r2023_01.tab", sep = '\t', header = TRUE)
 ```
 
 ```{r}
 str(spgo)
 ```
 
+#Join tables using kbl 
+Specify which columns to include and format names more cleanly
+
+## Molting gland:
 
 ```{r}
-left_join(bltabl, spgo,  by = c("V3" = "Entry")) %>%
-  select(V1, V3, V13, Protein.names, Organism, Gene.Ontology..biological.process., Gene.Ontology.IDs) %>% mutate(V1 = str_replace_all(V1, 
-            pattern = "solid0078_20110412_FRAG_BC_WHITE_WHITE_F3_QV_SE_trimmed", replacement = "Ab")) %>%
-  write_delim("../output/blast_annot_go.tab", delim = '\t')
+left_join(bltabl.mg, spgo,  by = c("V5" = "Entry")) %>%
+  write_delim("../output/blast_annot_go_mg.tab", delim = '\t')
 ```
 
+## Ganglia eyestalk:
+
 ```{r}
-annot_tab <- read.csv("../output/blast_annot_go.tab", sep = '\t', header = TRUE)
+left_join(bltabl.eg, spgo,  by = c("V5" = "Entry")) %>%
+  write_delim("../output/blast_annot_go_eg.tab", delim = '\t')
+```
+
+Examine at annotated table for molting gland (mg)
+
+```{bash}
+head -2 ../output/blast_annot_go_mg.tab 
+```
+
+Examine at annotated table for eyestalk ganglia (eg)
+
+```{bash}
+head -2 ../output/blast_annot_go_eg.tab 
+```
+
+Examine the structure of the annotated blast file
+
+```{r}
+annot_tab <- read.csv("../output/blast_annot_go_eg.tab", sep = '\t', header = TRUE)
 ```
 
 ```{r}
 str(annot_tab)
 ```
+
+
+
+# NOW run kallisto again using the matching .fasta file, need to run through separation process again because columns will probably be joined. then, join by column 3, or wherever we see "HBXI01000004.1"
