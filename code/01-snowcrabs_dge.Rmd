@@ -234,4 +234,3 @@ abline(h=c(-1,1), col="blue")
 ```{r}
 write.table(tmp.sig, "../output/DEGlist.tab", row.names = T)
 ```
-
