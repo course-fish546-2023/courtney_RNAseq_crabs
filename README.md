@@ -2,6 +2,8 @@
 
 ## **Differential gene expression in snow crabs (*Chionoecetes opilio*) in response to different pH treatments**
 
+[DOI](Courtney%20Skalley,%20&%20Steven%20Roberts.%20(2023).%20course-fish546-2023/courtney_RNAseq_crabs:%20v1.0-RNAseq_snowcrabs%20(v1.0-RNAseq_snowcrabs).%20Zenodo.%20https://doi.org/10.5281/zenodo.7972051) for github repository May 25, 2023
+
 ### Update on May 6, 2023: 
 Completed DGE using all 63 samples, updated code to combine forward and reverese sequences in DESeq.
 
