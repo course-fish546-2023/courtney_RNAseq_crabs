@@ -1,0 +1,7 @@
+# Contents
+
+This directory contains C. opilio transcriptomes and Uniprot database. They can be downloaded at the following links: 
+
+C. opilio_Molting gland transcriptome: https://gannet.fish.washington.edu/seashell/snaps/HBXI01.fasta
+C. opilio Eyestalk ganglia transcriptome: https://gannet.fish.washington.edu/seashell/snaps/HBWO01.fasta
+UniProt Swiss-Prot database: https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
