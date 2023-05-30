@@ -188,7 +188,7 @@ perl /home/shared/trinityrnaseq-v2.12.0/util/abundance_estimates_to_matrix.pl \
 
 ## Get packages
 
-Download these packages to generate figures and differntial gene expression.
+Download these packages to generate figures and differential gene expression.
 
 ```{r, eval = TRUE, echo = FALSE}
 library(DESeq2)
@@ -221,8 +221,7 @@ str(countmatrix)
 Use DESeq2 to make a differential gene expression. Looking at metadata, we can see that the first 12 samples were the "control", followed by 14 "pH 7.5-long exposure", 12 "pH 7.5-short exposure", 14 "pH 7.8-long exposure", then 11 "pH 7.8-short exposure". This gives us a total of 63 "paired-end" reads. This information can be used to label the matrix accordingly. 
 
 ```{r, , eval = TRUE, echo = FALSE}
-deseq2.colData <- data.frame(condition=factor(c(rep("control", 12), rep("pH 7.5-long exposure", 14), rep("pH 7.5-short exposure", 12), rep("pH 7.8-long exposure", 14), rep("pH 7.8-short exposure", 11))), 
-                             type=factor(rep("paired-end", 63)))
+deseq2.colData <- data.frame(condition=factor(c(rep("control", 12), rep("pH 7.5-long exposure", 14), rep("pH 7.5-short exposure", 12), rep("pH 7.8-long exposure", 14), rep("pH 7.8-short exposure", 11))), type=factor(rep("paired-end", 63)))
 rownames(deseq2.colData) <- colnames(data)
 deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix,
                                      colData = deseq2.colData, 
