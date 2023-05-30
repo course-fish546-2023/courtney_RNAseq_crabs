@@ -1,0 +1,264 @@
+---
+title: "snowcrabs_transcriptome"
+author: "Courtney Skalley"
+date: "2023-05-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Download Software
+
+```{r}
+library(tidyverse)
+```
+
+Check that blast software has been downloaded
+
+```{bash}
+ls /home/shared/
+```
+
+# Make blast database
+
+Download uniprot/swisprot fasta, rename with year and version, then unzip the file.
+
+```{bash, blast database}
+cd ../data
+curl -O https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+mv uniprot_sprot.fasta.gz uniprot_sprot_r2023_01.fasta.gz
+gunzip -k uniprot_sprot_r2023_01.fasta.gz
+ls ../data
+```
+
+```{bash}
+/home/shared/ncbi-blast-2.11.0+/bin/makeblastdb \
+-in ../data/uniprot_sprot_r2023_01.fasta \
+-dbtype prot \
+-out ../blastdb/uniprot_sprot_r2023_01
+```
+
+# Download transcriptomes
+
+There are three available transcriptomes for opilio crabs: molting gland, eyestalk ganglia, and hepatopancreas. Here, we will blast the molting gland and eyestalk ganglia transcriptomes.
+
+C. opilio molting gland (mg) transcriptome:
+
+```{bash}
+cd ../data
+curl -o "c_opilio_mg_transcriptome.fasta" -H "Accept: text/plain; format=tsv" "https://gannet.fish.washington.edu/seashell/snaps/HBXI01.fasta"
+```
+
+C. opilio eyestalk ganglia (eg) transcriptome:
+
+```{bash}
+cd ../data
+curl -o "c_opilio_eg_transcriptome.fasta" -H "Accept: text/plain; format=tsv" "https://gannet.fish.washington.edu/seashell/snaps/HBWO01.fasta"
+```
+
+### Examine fasta files
+
+Eyestalk ganglia (eg) transcriptome:
+
+```{bash}
+head ../data/c_opilio_eg_transcriptome.fasta
+echo "How many sequences are there?"
+grep -c ">" ../data/c_opilio_eg_transcriptome.fasta
+```
+
+Molting gland (mg) transcriptome:
+
+```{bash}
+head ../data/c_opilio_mg_transcriptome.fasta
+echo "How many sequences are there?"
+grep -c ">" ../data/c_opilio_mg_transcriptome.fasta
+```
+
+# Run blast
+
+### Blast molting gland (mg) transcriptome:
+
+```{bash}
+/home/shared/ncbi-blast-2.11.0+/bin/blastx \
+-query ../data/c_opilio_mg_transcriptome.fasta \
+-db ../blastdb/uniprot_sprot_r2023_01 \
+-out ../output/c_opilio_mg_uniprot_blastx.tab \
+-evalue 1E-20 \
+-num_threads 20 \
+-max_target_seqs 1 \
+-outfmt 6
+```
+
+Examine blastx table for molting gland
+
+```{bash}
+head -2 ../output/c_opilio_mg_uniprot_blastx.tab
+wc -l ../output/c_opilio_mg_uniprot_blastx.tab
+```
+
+### Blast eyestalk ganglia (eg) transcriptome:
+
+```{bash}
+/home/shared/ncbi-blast-2.11.0+/bin/blastx \
+-query ../data/c_opilio_eg_transcriptome.fasta \
+-db ../blastdb/uniprot_sprot_r2023_01 \
+-out ../output/c_opilio_eg_uniprot_blastx.tab \
+-evalue 1E-20 \
+-num_threads 20 \
+-max_target_seqs 1 \
+-outfmt 6
+```
+
+Examine blastx table for eyestalk ganglia
+
+```{bash}
+head -2 ../output/c_opilio_eg_uniprot_blastx.tab
+wc -l ../output/c_opilio_eg_uniprot_blastx.tab
+```
+
+# Download uniprot table
+
+```{bash}
+cd ../data
+curl -o "uniprot_table_r2023_01.tab" -H "Accept: text/plain; format=tsv" "https://gannet.fish.washington.edu/seashell/snaps/uniprot_table_r2023_01.tab"
+```
+
+Examine uniprot table
+
+```{bash}
+head -2 ../data/uniprot_table_r2023_01.tab
+```
+
+# Format tables
+
+## Separate pipes (\|) into tabs for mg
+
+```{bash}
+tr '|' '\t' < ../output/c_opilio_mg_uniprot_blastx.tab | head -2
+```
+
+```{bash}
+tr '|' '\t' < ../output/c_opilio_mg_uniprot_blastx.tab \
+> ../output/c_opilio_mg_uniprot_blastx_sep.tab
+```
+
+## Separate pipes (\|) into tabs for eg
+
+```{bash}
+tr '|' '\t' < ../output/c_opilio_eg_uniprot_blastx.tab | head -2
+```
+
+```{bash}
+tr '|' '\t' < ../output/c_opilio_eg_uniprot_blastx.tab \
+> ../output/c_opilio_eg_uniprot_blastx_sep.tab
+```
+
+Examine molting gland (mg) table
+
+```{bash}
+head -2 ../output/c_opilio_mg_uniprot_blastx_sep.tab 
+```
+
+Examine eyestalk ganglia (eg) table
+
+```{bash}
+head -2 ../output/c_opilio_eg_uniprot_blastx_sep.tab 
+```
+
+# Save blastx table as a local object
+### Molting gland
+
+```{r}
+bltabl.mg <- read.csv("../output/c_opilio_mg_uniprot_blastx_sep.tab", sep = '\t', header = FALSE)
+```
+
+### Eyestalk ganglia
+
+```{R}
+bltabl.eg <- read.csv("../output/c_opilio_eg_uniprot_blastx_sep.tab", sep = '\t', header = FALSE)
+```
+
+# Save database reference table as a local object
+
+```{r}
+spgo <- read.csv("../data/uniprot_table_r2023_01.tab", sep = '\t', header = TRUE)
+```
+
+```{r}
+str(spgo)
+```
+
+#Join tables using kbl 
+Specify which columns to include and format names more cleanly
+
+## Molting gland:
+
+```{r}
+left_join(bltabl.mg, spgo,  by = c("V5" = "Entry")) %>%
+  write_delim("../output/blast_annot_go_mg.tab", delim = '\t')
+```
+
+## Ganglia eyestalk:
+
+```{r}
+left_join(bltabl.eg, spgo,  by = c("V5" = "Entry")) %>%
+  write_delim("../output/blast_annot_go_eg.tab", delim = '\t')
+```
+
+Examine at annotated table for molting gland (mg)
+
+```{r}
+annot_tab <- read.csv("../output/blast_annot_go_mg.tab", sep = '\t', header = TRUE)
+head(annot_tab)
+```
+
+Examine at annotated table for eyestalk ganglia (eg)
+
+```{r}
+annot_tab_eg <- read.csv("../output/blast_annot_go_eg.tab", sep = '\t', header = TRUE)
+head(annot_tab)
+```
+
+
+# Annotate DGE table
+Join by V3 (in annot_taba) and column with "HBXI01000004.1" (DEGtab)
+
+Separate columns that contain "|". 
+
+
+tr '|' '\t' < ../output/c_opilio_eg_uniprot_blastx.tab \
+> ../output/c_opilio_eg_uniprot_blastx_sep.tab
+
+```{bash}
+# Problem: DEGlist.tab is 1363 obs of 1 variable, so there aren't columns for me to separate out. 
+cat ../output/DEGlist.tab | tr '|' '\t' |  tr -d \" | sed '1d' \
+> ../output/DEGlist_sep.tab  #rename with "_sep"
+```
+
+Compare the original table to separated table
+```{bash}
+head -2 ../output/DEGlist.tab
+```
+```{bash}
+head -2 ../output/DEGlist_sep.tab #not actually separated, ENA, HBXI.. and HBXI....1 all within quotations (one column)
+```
+
+
+```{r}
+DEGtab <- read.csv("../output/DEGlist_sep.tab", sep = "", header = FALSE)
+# head(DEGtab) #this is empty; only 1 variable
+```
+
+```{bash}
+head ../output/DEGlist_sep.tab
+```
+
+```{r}
+# need to get DEGtab or annotated matrix in correct format to join columns
+left_join(DEGtab, annot_tab, by = c("FIGURE THIS OUT" = "V3")) %>%
+  write_delim("../output/annot_DEG.tab", delim = '\t')
+```
+
+
