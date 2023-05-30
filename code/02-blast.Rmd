@@ -23,7 +23,7 @@ ls /home/shared/
 
 # Make blast database
 
-Download uniprot/swissprot fasta, rename with year and version, then unzip the file.
+Download uniprot/swisprot fasta, rename with year and version, then unzip the file.
 
 ```{bash, blast database}
 cd ../data
@@ -209,26 +209,50 @@ left_join(bltabl.eg, spgo,  by = c("V5" = "Entry")) %>%
 
 Examine at annotated table for molting gland (mg)
 
-```{bash}
-head -2 ../output/blast_annot_go_mg.tab 
+```{r}
+annot_tab <- read.csv("../output/blast_annot_go_mg.tab", sep = '\t', header = TRUE)
+head(annot_tab)
 ```
 
 Examine at annotated table for eyestalk ganglia (eg)
 
+```{r}
+annot_tab_eg <- read.csv("../output/blast_annot_go_eg.tab", sep = '\t', header = TRUE)
+head(annot_tab)
+```
+
+
+# Annotate DGE table
+Join by V3 (in annot_taba) and column with "HBXI01000004.1" (DEGtab)
+
+Separate columns that contain "|". 
+
 ```{bash}
-head -2 ../output/blast_annot_go_eg.tab 
+# Problem: DEGlist.tab is 1363 obs of 1 variable, so there aren't columns for me to separate out. 
+tr '|' '\t' < ../output/DEGlist.tab \
+> ../output/DEGlist_sep.tab  #rename with "_sep"
 ```
 
-Examine the structure of the annotated blast file
+Compare the original table to separated table
+```{bash}
+head -2 ../output/DEGlist.tab
+```
+```{bash}
+head -2 ../output/DEGlist_sep.tab #not actually separated, ENA, HBXI.. and HBXI....1 all within quotations (one column)
+```
+```{r}
+DEGtab <- read.csv("../output/DEGlist_sep.tab", sep = ' ', header = TRUE)
+# head(DEGtab) #this is empty; only 1 variable
+```
+
+```{bash}
+head ../output/DEGlist_sep.tab
+```
 
 ```{r}
-annot_tab <- read.csv("../output/blast_annot_go_eg.tab", sep = '\t', header = TRUE)
+# need to get DEGtab or annotated matrix in correct format to join columns
+left_join(DEGtab, annot_tab, by = c("FIGURE THIS OUT" = "V3")) %>%
+  write_delim("../output/annot_DEG.tab", delim = '\t')
 ```
 
-```{r}
-str(annot_tab)
-```
 
-
-
-# NOW run kallisto again using the matching .fasta file, need to run through separation process again because columns will probably be joined. then, join by column 3, or wherever we see "HBXI01000004.1"
