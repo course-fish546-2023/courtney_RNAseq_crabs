@@ -6,8 +6,11 @@
 
 ### Update on June 5, 2023: 
 Completed DGE using all 63 samples, updated code to combine forward and reverese sequences in DESeq. Visualized data with:
+
     -   Heatmap
+    
     -   PCA
+    
     -   Volcano plot
     
 ### Link to results:
