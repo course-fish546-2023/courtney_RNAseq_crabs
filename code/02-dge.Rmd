@@ -1,5 +1,5 @@
 ---
-title: "00-compendium"
+title: "Differential Gene Expression"
 author: "Courtney Skalley"
 date: "2023-06-06"
 output: html_document

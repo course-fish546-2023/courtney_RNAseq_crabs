@@ -22,6 +22,18 @@ library(knitr)
 
 ### Data wrangling
 
+Run DESeq2 so that we have all the necessary files.
+
+```{r, , eval = TRUE, cache = TRUE}
+deseq2.colData <- data.frame(condition=factor(c(rep("control", 12), rep("pH 7.5-long exposure", 14))))
+rownames(deseq2.colData) <- colnames(data)
+deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix_pH7.5_long,
+                                     colData = deseq2.colData, 
+                                     design = ~ condition)
+dim(countmatrix_pH7.5_long)
+dim(deseq2.colData)
+```
+
 Take counts from deseq2.dds, save as local object and as file.
 
 ```{r, eval = TRUE}
@@ -176,7 +188,7 @@ rownames(counts_top_pro2) <- protein_names2
 log_counts_top2 <- log2(counts_top_pro2 + 1)
 ```
 
-Organizing by "Gene.Ontology..biological.process."
+Alternative: organize by "Gene.Ontology..biological.process."
 
 ```{r}
 #trim down data frame
@@ -214,14 +226,11 @@ log_counts_top_bio2 <- log2(counts_top_bio_ont2 + 1)
 ## Heatmap (Labeled)
 
 ```{r, eval = TRUE, , warning = FALSE}
+
 # Define custom palette of shades of light orange to dark orange
 custom_palette <- c('#fff7fb','#ece2f0','#d0d1e6',
                     '#a6bddb','#67a9cf','#3690c0',
                     '#02818a','#016c59','#014636')
-
-
-par(mar=c(7,4,4,2)+0.1) 
-png(filename='../output/03-heatmap-01.png', width=800, height=750)
 
 # Customize the heatmap using heatmap.2
 heatmap.2(log_counts_top2,
@@ -239,11 +248,9 @@ heatmap.2(log_counts_top2,
           key.ylab = "Frequency",
           trace="none",
           cexCol = 1) 
-
-graphics.off()
 ```
 
-![](images/03-heatmap-01.png)
+![](figures/03-heatmap-01.png)
 
 ## Volcano Plot
 
@@ -251,37 +258,32 @@ This generates a volcano plot that shows the log change of gene expression betwe
 
 ```{r, eval = TRUE, echo = TRUE}
 
-par(mar=c(7,4,4,2)+0.1) 
-png(filename='../output/03-volcano-plot.png', width=800, height=750)
-
 # The main plot
 plot(deseq2.res$baseMean, deseq2.res$log2FoldChange, pch=20, cex=0.45, ylim=c(-3, 3), log="x", col="darkgray",
      main="DEG Snow Crab Treatments  (pval <= 0.05)",
      xlab="mean of normalized counts",
      ylab="Log2 Fold Change")
+
 # Getting the significant points and plotting them again so they're a different color
 points(deseq2.res.sig$baseMean, deseq2.res.sig$log2FoldChange, pch=20, cex=0.7, col="#3690c0")
+
 # 2 FC lines
 abline(h=c(-1,1), col="#ec7014")
 
-graphics.off()
 ```
 
-![](images/03-volcano-plot.png)
+![](figures/03-volcano-plot.png)
 
 ## Principal Component Analysis
 
 ```{r, eval = TRUE}
-par(mar=c(7,4,4,2)+0.1) 
-png(filename='../output/03-PCA.png', width=800, height=750)
 
 vst.data <- vst(deseq2.dds, blind = FALSE)
 plotPCA(vst.data, intgroup = "condition")
 
-graphics.off()
 ```
 
-![](images/03-PCA.png)
+![](figures/03-PCA.png)
 
 ### Data wrangling for heatmap
 
@@ -333,20 +335,18 @@ log_counts_top_sep <- log_counts_top_sep[,c(4:29)]
 
 #converts to matrix for use in heatmap()
 log_counts_top_sep <- as.matrix(log_counts_top_sep)
+
+merge(log_counts_top_sep, )
 ```
 
 ## Heatmap
 
 ```{r, eval = TRUE, warning = FALSE}
-
-png(file="../output/03-heatmap-02.png",
-width=900, height=650)
 pheatmap(log_counts_top_sep, 
          scale = "row", 
          color = custom_palette,
          fontsize_row = 8,
          cellheight = 8)
-dev.off()
 ```
 
-![](images/03-heatmap-02.png)
+![](figures/03-heatmap-02.png)

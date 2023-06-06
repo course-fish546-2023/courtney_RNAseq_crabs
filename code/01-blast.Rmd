@@ -1,5 +1,5 @@
 ---
-title: "snowcrabs_transcriptome"
+title: "Blast"
 author: "Courtney Skalley"
 date: "2023-05-18"
 output: html_document
@@ -9,7 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Download Software
+# Setup
+## Download Software
 
 ```{r}
 library(tidyverse)
@@ -88,19 +89,6 @@ cat ../output/c_opilio_mg_uniprot_blastx.tab | tr '|' '\t' |  tr -d \" | sed '1d
 > ../output/c_opilio_mg_uniprot_blastx_sep.tab  #rename with "_sep"
 ```
 
-```{r}
-#WRONG 
-bltbl <- read.csv("../output/blast_annot_go_mg.tab", sep = '\t', header = TRUE)
-```
-
-
-```{r} 
-#WRONG
-annot_tab <- left_join(bltbl, spgo,  by = c("V3" = "Entry"))
-```
-
-
-
 # Download uniprot table
 
 ```{bash}
@@ -114,6 +102,11 @@ Examine uniprot table
 head -2 ../data/uniprot_table_r2023_01.tab
 ```
 
+
+```{r}
+bltbl <- read.csv("../output/c_opilio_mg_uniprot_blastx_sep.tab", sep = '\t', header = TRUE)
+```
+
 ```{r}
 spgo <- read.csv("../data/uniprot_table_r2023_01.tab", sep = '\t', header = TRUE)
 ```
@@ -124,6 +117,12 @@ head(spgo)
 
 #Join tables
 Specify which columns to include and format names more cleanly
+
+```{r}
+left_join(bltabl, spgo,  by = c("V3" = "Entry")) %>%
+  select(V1, V3, V13, Protein.names, Organism, Gene.Ontology..biological.process., Gene.Ontology.IDs) %>% 
+  write_delim("../output/blast_annot_go.tab", delim = '\t')
+```
 
 ## Molting gland:
 
