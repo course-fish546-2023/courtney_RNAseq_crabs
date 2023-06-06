@@ -4,31 +4,24 @@
 
 [DOI](Courtney%20Skalley,%20&%20Steven%20Roberts.%20(2023).%20course-fish546-2023/courtney_RNAseq_crabs:%20v1.0-RNAseq_snowcrabs%20(v1.0-RNAseq_snowcrabs).%20Zenodo.%20https://doi.org/10.5281/zenodo.7972051) for github repository May 25, 2023
 
-### Update on May 6, 2023: 
-Completed DGE using all 63 samples, updated code to combine forward and reverese sequences in DESeq.
-
-### Plan for next 4 weeks:
--   Conduct DGE using all 63 samples
--   Update code to combine forward and reverse sequences in DESeq
--   Visualize data in other ways
-    -   Hierarchical Clustering Heatmap
+### Update on June 5, 2023: 
+Completed DGE using all 63 samples, updated code to combine forward and reverese sequences in DESeq. Visualized data with:
+    -   Heatmap
     -   PCA
--   Create and annotate a de novo snow crab transcriptome (if there is time)
-
+    -   Volcano plot
+    
 ### Link to results:
+-   Rpubs: <https://rpubs.com/cskalley/snowcrabs_dge>
 -   Code: <https://github.com/course-fish546-2023/courtney_RNAseq_crabs/blob/970eec8fea6298725a453ccc06ac890338e26598/code/snowcrabs_dge.Rmd>
 -   Output: <https://github.com/course-fish546-2023/courtney_RNAseq_crabs/tree/main/output>
 
-
-I will be working with paired end RNA-Seq data prepared and provided by
+I am working with paired end RNA-Seq data prepared and provided by
 Laura Spencer.
 
 ### End Point
 
 The ultimate goal of this project is to compare gene expression between
-snow crabs exposed to high pH levels. To do this, I will follow the
-steps outlined in the week 02 assignment for FISH 546. Time permitting,
-I will work on assembling a de novo snow crab transcriptome.
+snow crabs exposed to low pH levels.
 
 ### **Data**
 
