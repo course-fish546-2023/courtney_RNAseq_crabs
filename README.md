@@ -38,13 +38,19 @@ Detailed metadeta is located here:
 
 ### Samples used in analysis:
 
-Control: samples #1-4 + 5010_1\_S1_L003_R2_001.fastq.gz +
-5010_2\_S2_L003_R1_001.fastq.gz + 5010_3\_S3_L003_R1_001.fastq.gz +
-5010_4\_S4_L003_R1_001.fastq.gz
+Control: samples #1-4 
 
-pH 7.8 (long exposure): samples #39-42 +
-5010_39_S39_L003_R1_001.fastq.gz + 5010_40_S40_L003_R1_001.fastq.gz +
-5010_41_S41_L003_R1_001.fastq.gz + 5010_42_S42_L003_R1_001.fastq.gz
++ 5010_1\_S1_L003_R2_001.fastq.gz 
++ 5010_2\_S2_L003_R1_001.fastq.gz
++ 5010_3\_S3_L003_R1_001.fastq.gz 
++ 5010_4\_S4_L003_R1_001.fastq.gz
+
+pH 7.8 (long exposure): samples #39-42 
+
++ 5010_39_S39_L003_R1_001.fastq.gz 
++ 5010_40_S40_L003_R1_001.fastq.gz 
++ 5010_41_S41_L003_R1_001.fastq.gz 
++ 5010_42_S42_L003_R1_001.fastq.gz
 
 Hash for samples 1-4 (control):
 
