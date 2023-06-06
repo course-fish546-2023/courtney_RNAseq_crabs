@@ -22,7 +22,8 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-[DOI](Courtney%20Skalley,%20&%20Steven%20Roberts.%20(2023).%20course-fish546-2023/courtney_RNAseq_crabs:%20v1.0-RNAseq_snowcrabs%20(v1.0-RNAseq_snowcrabs).%20Zenodo.%20https://doi.org/10.5281/zenodo.7972051) for github repository May 25, 2023
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8010882.svg)](https://doi.org/10.5281/zenodo.8010882)\
+Githup release June 6, 2023
 
 This project contains a workflow for examining the effect of ocean acidification on gene expression of snow crabs. It runs using paired end RNA-Seq data prepared and provided by Laura Spencer. 63 juvenile crabs were exposed to the following pH treatments:
 

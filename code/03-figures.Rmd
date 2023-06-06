@@ -9,8 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
 ```
 
-```{r, eval = TRUE, echo = TRUE}
+```{r, eval = TRUE, echo = TRUE, warnings = FALSE}
 library(tidyverse)
+library(DESeq2)
 library(pheatmap)
 library(RColorBrewer)
 library(data.table)
@@ -24,7 +25,20 @@ library(knitr)
 
 Run DESeq2 so that we have all the necessary files.
 
-```{r, , eval = TRUE, cache = TRUE}
+```{r, eval = TRUE}
+countmatrix <- read.delim("../output/kallisto_mg.isoform.counts.matrix", header = TRUE, sep = '\t')
+rownames(countmatrix) <- countmatrix$X
+countmatrix_pH7.5_long <- countmatrix[,2:27] #select only the control and pH 7.5 (long exposure)
+head(countmatrix_pH7.5_long, 2)
+```
+Round up to whole numbers.
+
+```{r, eval = TRUE, echo = FALSE, cache=TRUE}
+countmatrix_pH7.5_long <- round(countmatrix_pH7.5_long, 0)
+```
+
+
+```{r, , eval = TRUE, cache = TRUE, warnings = FALSE}
 deseq2.colData <- data.frame(condition=factor(c(rep("control", 12), rep("pH 7.5-long exposure", 14))))
 rownames(deseq2.colData) <- colnames(data)
 deseq2.dds <- DESeqDataSetFromMatrix(countData = countmatrix_pH7.5_long,
@@ -227,6 +241,10 @@ log_counts_top_bio2 <- log2(counts_top_bio_ont2 + 1)
 
 ```{r, eval = TRUE, , warning = FALSE}
 
+par(mar=c(7,4,4,2)+0.1) 
+png(filename='../output/03-heatmap-01.png', width=800, height=750)
+
+
 # Define custom palette of shades of light orange to dark orange
 custom_palette <- c('#fff7fb','#ece2f0','#d0d1e6',
                     '#a6bddb','#67a9cf','#3690c0',
@@ -248,15 +266,20 @@ heatmap.2(log_counts_top2,
           key.ylab = "Frequency",
           trace="none",
           cexCol = 1) 
+
+graphics.off()
 ```
 
-![](figures/03-heatmap-01.png)
+![](../output/figures/03-heatmap-01.png)
 
 ## Volcano Plot
 
 This generates a volcano plot that shows the log change of gene expression between the control and a treatment of pH 7.5 for 12 weeks.
 
 ```{r, eval = TRUE, echo = TRUE}
+
+par(mar=c(7,4,4,2)+0.1) 
+png(filename='../output/03-volcano-plot.png', width=800, height=750)
 
 # The main plot
 plot(deseq2.res$baseMean, deseq2.res$log2FoldChange, pch=20, cex=0.45, ylim=c(-3, 3), log="x", col="darkgray",
@@ -270,20 +293,27 @@ points(deseq2.res.sig$baseMean, deseq2.res.sig$log2FoldChange, pch=20, cex=0.7, 
 # 2 FC lines
 abline(h=c(-1,1), col="#ec7014")
 
+graphics.off()
+
 ```
 
-![](figures/03-volcano-plot.png)
+![](../output/figures/03-volcano-plot.png)
 
 ## Principal Component Analysis
 
 ```{r, eval = TRUE}
 
+par(mar=c(7,4,4,2)+0.1) 
+png(filename='../output/03-PCA.png', width=800, height=750)
+
+
 vst.data <- vst(deseq2.dds, blind = FALSE)
 plotPCA(vst.data, intgroup = "condition")
 
+graphics.off()
 ```
 
-![](figures/03-PCA.png)
+![](../output/figures/03-PCA.png)
 
 ### Data wrangling for heatmap
 
@@ -342,11 +372,16 @@ merge(log_counts_top_sep, )
 ## Heatmap
 
 ```{r, eval = TRUE, warning = FALSE}
+par(mar=c(7,4,4,2)+0.1) 
+png(filename='../output/03-heatmap-02.png', width=800, height=750)
+
 pheatmap(log_counts_top_sep, 
          scale = "row", 
          color = custom_palette,
          fontsize_row = 8,
          cellheight = 8)
+
+graphics.off()
 ```
 
-![](figures/03-heatmap-02.png)
+![](../output/figures/03-heatmap-02.png)
