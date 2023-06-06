@@ -2,7 +2,7 @@
 
 ## **Differential gene expression in snow crabs (*Chionoecetes opilio*) in response to different pH treatments**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8010882.svg)](https://doi.org/10.5281/zenodo.8010882)\
+[DOI](https://zenodo.org/record/8010882)
 Githup release June 6, 2023
 
 ### Update on June 5, 2023: 
