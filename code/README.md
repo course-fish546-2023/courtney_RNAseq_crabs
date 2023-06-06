@@ -1,1 +1,7 @@
-This directory contains code for Blast, Differential Gene Expression, and figure generation. My project compendium (00-compendium) for FISH 546 (Spring 2023), is a compilation of these three codes. 
+Summary of code: 
+
+* **00-compendium** Projet compendium for FISH 546. Compilation of three codes
+* **01-blast** Annotates *C. opiolio* molting gland transcriptome and DGE table
+* **02-dge** Generates table of differentially expressed genes
+* **03-figures** Generates heatmaps, volcano plot, and PCA
+* **04-project-presentation** Mid-quarter presentation for FISH 546. 
